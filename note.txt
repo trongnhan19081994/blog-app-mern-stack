@@ -1,0 +1,29 @@
+Link: https://youtu.be/UiWu-zVw3AE?t=13
+--------------------------------------------------------------------
+👉 MERN Stack Build  a blog app using MERN  + Typescript + Redux  + Bootstrap 5 + ReactQuill + Socket.io + Twilio
++ Register, login with Email or Phone number.
++ Quick login with Google, Facebook, SMS.
++ Forgot password, reset password and register a new account by Email or SMS verification.
++ Update personal information (name, password and avatar)
++ Create new blog with React quill.
++ Comment realtime with Socket.io
++ Pagination, search with autocomplete Mongodb
+--------------------------------------------------------------------
+* Install
+    - npm i express mongoose dotenv cors morgan cookie-parser
+    - npm i -D @types/express @types/mongoose @types/dotenv @types/cors @types/morgan @types/cookie-parser  //https://viblo.asia/p/setting-up-node-project-with-typescript-QpmlexenZrd
+    - npm i -D typescript ts-node-dev @types/node // ts-node-dev: dùng để chạy lại ctrinh khi file typescript thay đổi
+    - npx tsc --init // tạo file tsconfig.json
+    - npm i bcrypt jsonwebtoken
+    - npm i -D @types/bcrypt @types/jsonwebtoken
+    - npm i nodemailer google-auth-library
+    - npm i -D @types/nodemailer
+    - npm install twilio
+
+    - npx create-react-app client --template typescript
+    - npm i react-router-dom axios redux redux-thunk react-redux redux-devtools-extension
+    - npm i --save-dev @types/react-router-dom
+    Link:
+    Nodemailer : https://nodemailer.com/about/
+
+    Link tìm trong OAuth 2.0 Playground: http://mail.google.com
