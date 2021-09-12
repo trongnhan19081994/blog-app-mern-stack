@@ -37,18 +37,13 @@ const authCtrl = {
             const decoded = <IDecodedToken>jwt.verify(active_token, `${process.env.ACTIVE_TOKEN_SECRET}`)
             const {newUser} = decoded
             if(!newUser) return res.status(400).json({msg: 'Invalid authentication'})
-            const user = new Users(newUser)
-            await user.save()
+            const user = await Users.findOne({account: newUser.account})
+            if(user) return res.status(400).json({msg: 'Account already exists.'})
+            const new_user = new Users(newUser)
+            await new_user.save()
             res.json({msg: 'Account has been activated!'})
         } catch (error: any) {
-            let errMsg
-            if(error.code===11000) {
-                errMsg = Object.keys(error.keyValue)[0] + "already exists."
-            } else {
-                let name = Object.keys(error.errors)[0]
-                errMsg = error.errors[`${name}`].message
-            }
-            return res.status(500).json({msg: errMsg})
+            return res.status(500).json({msg: error.message})
         }
     },
     login: async(req: Request, res: Response) => {
@@ -79,7 +74,7 @@ const authCtrl = {
             const user = await Users.findById(decoded.id).select('-password')
             if(!user) return res.status(400).json({msg: 'This account does not exits.'})
             const access_token = generateAccessToken({id: user._id})
-            res.json({access_token, msg: 'Success.'})
+            res.json({access_token, user, msg: 'Success.'})
         } catch (error:any) {
             res.status(500).json({msg: error.message})
         }

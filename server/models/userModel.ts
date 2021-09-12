@@ -27,7 +27,7 @@ const useSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        default: 'normal' //social - phone number - ...
+        default: 'register' //social - phone number - ...
     }
 }, {
     timestamps: true

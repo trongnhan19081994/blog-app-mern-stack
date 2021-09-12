@@ -37,3 +37,11 @@
   .auth_page a:hover{
     text-decoration: underline;
   }
+
+  .avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    transform: translateX(-3px);
+  }
