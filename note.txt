@@ -1,4 +1,4 @@
-Link: https://youtu.be/UiWu-zVw3AE?t=13
+Link: https://www.youtube.com/watch?v=CAzU531ar7U&list=PLs4co9a6NhMw7xB4xPSkSQRM8uQVAZak6&index=16
 --------------------------------------------------------------------
 👉 MERN Stack Build  a blog app using MERN  + Typescript + Redux  + Bootstrap 5 + ReactQuill + Socket.io + Twilio
 + Register, login with Email or Phone number.
@@ -14,15 +14,19 @@ Link: https://youtu.be/UiWu-zVw3AE?t=13
     - npm i -D @types/express @types/mongoose @types/dotenv @types/cors @types/morgan @types/cookie-parser  //https://viblo.asia/p/setting-up-node-project-with-typescript-QpmlexenZrd
     - npm i -D typescript ts-node-dev @types/node // ts-node-dev: dùng để chạy lại ctrinh khi file typescript thay đổi
     - npx tsc --init // tạo file tsconfig.json
-    - npm i bcrypt jsonwebtoken
-    - npm i -D @types/bcrypt @types/jsonwebtoken
-    - npm i nodemailer google-auth-library
+    - npm i bcrypt jsonwebtoken :Mã hoá mật khẩu và tạo json trong server
+    - npm i -D @types/bcrypt @types/jsonwebtoken 
+    - npm i nodemailer google-auth-library : Gửi mail và xác thực auth trong google
     - npm i -D @types/nodemailer
-    - npm install twilio
+    - npm install twilio :Gửi sms
+    - npm i node-fetch
+    - npm install @types/node-fetch@2.5.12
 
     - npx create-react-app client --template typescript
     - npm i react-router-dom axios redux redux-thunk react-redux redux-devtools-extension
     - npm i --save-dev @types/react-router-dom
+    - npm i react-google-login-lite :Login google
+    - npm i react-facebook-login-lite : Login facebook
     Link:
     Nodemailer : https://nodemailer.com/about/
 
