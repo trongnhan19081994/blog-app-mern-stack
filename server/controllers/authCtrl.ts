@@ -107,7 +107,7 @@ const authCtrl = {
                     account: email,
                     password: passwordHash,
                     avatar: picture,
-                    type: 'login'
+                    type: 'google'
                 }
                 registerUser(user, res)
             }
@@ -133,7 +133,7 @@ const authCtrl = {
                     account: email,
                     password: passwordHash,
                     avatar: picture.data.url,
-                    type: 'login'
+                    type: 'facebook'
                 }
                 registerUser(user, res)
             }
@@ -166,9 +166,29 @@ const authCtrl = {
                     name: phone, 
                     account: phone,
                     password: passwordHash,
-                    type: 'login'
+                    type: 'sms'
                 }
                 registerUser(user, res)
+            }
+        } catch (error:any) {
+            res.status(500).json({msg: error.message})
+        }
+    },
+    forgot_password: async(req: Request, res: Response) => {
+        try {
+            const {account} = req.body
+            const user = await Users.findOne({account})
+            if(!user) return res.status(400).json({msg: 'This account does not exist.'})
+            if(user.type !== 'register') return res.status(400).json({msg: `Quick login account with ${user.type} can't use this function.`})
+
+            const access_token = generateAccessToken({id: user._id})
+            const url = `${CLIENT_URL}/reset_password/${access_token}`
+            if(validatePhone(account)){
+                sendSms(account, url,"Forgot password?")
+                return res.json({msg: 'Success! Please check your phone.'})
+            } else if(validateEmail(account)){
+                sendEmail(account, url,"Forgot password?")
+                return res.json({msg: 'Success! Please check your email.'})
             }
         } catch (error:any) {
             res.status(500).json({msg: error.message})
@@ -178,7 +198,13 @@ const authCtrl = {
 
 const loginUser = async (user: IUser, password:string, res: Response) => {
     const isMath = await bcrypt.compare(password, user.password)
-    if(!isMath) return res.status(400).json({msg: 'Passsword is incorrect.'})
+    if(!isMath) {
+        let msgError = user.type === 'register' 
+        ? 'Passsword is incorrect.'
+        : `Passsword is incorrect. This account login with ${user.type}`
+        return res.status(400).json({msg: msgError})
+    } 
+    
     const access_token = generateAccessToken({id: user._id})
     const refresh_token = generateRefreshToken({id: user._id})
     res.cookie('refreshtoken', refresh_token, {

@@ -96,7 +96,7 @@ export const loginSMS = (phone: string) => async (dispatch: Dispatch<IAuthType |
     try {
         dispatch({type: ALERT, payload: {loading: true}})
         const res = await postAPI('login_sms', { phone })
-        if(!res.data.valid)
+        if(!res.data.valid) // res.data.valid = false
         verifySMS(phone, dispatch)
     } catch (error:any) {
         dispatch({type: ALERT, payload: {errors: error.response.data.msg}})
@@ -121,5 +121,14 @@ export const verifySMS = async (phone: string, dispatch: Dispatch<IAuthType | IA
         }, 100);
         
     }
-    
+}
+
+export const forgotPassword = (account: string) => async (dispatch: Dispatch<IAuthType | IAlertType>) => {
+    try {
+        dispatch({type: ALERT, payload: {loading: true}})
+        const res = await postAPI('forgot_password', {account})
+        dispatch({type: ALERT, payload: {success: res.data.msg}})
+    } catch (error:any) {
+        dispatch({type: ALERT, payload: {errors: error.response.data.msg}})
+    }
 }
