@@ -27,7 +27,10 @@ Link: https://www.youtube.com/watch?v=CAzU531ar7U&list=PLs4co9a6NhMw7xB4xPSkSQRM
     - npm i --save-dev @types/react-router-dom
     - npm i react-google-login-lite :Login google
     - npm i react-facebook-login-lite : Login facebook
+    - npm i react-quill : Editor nhập nội dung
     Link:
     Nodemailer : https://nodemailer.com/about/
 
     Link tìm trong OAuth 2.0 Playground: http://mail.google.com
+
+    Editor : https://www.npmjs.com/package/react-quill

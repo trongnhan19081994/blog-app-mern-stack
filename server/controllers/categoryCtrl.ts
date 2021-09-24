@@ -10,7 +10,7 @@ const categoryCtrl = {
             const name = req.body.name.toLowerCase()
             const newCategory = new Categories({name})
             await newCategory.save()
-            console.log({newCategory})
+            res.json({newCategory, msg: 'Create Success.'})
         } catch (error: any) {
             let errMsg
             if(error.code === 11000){

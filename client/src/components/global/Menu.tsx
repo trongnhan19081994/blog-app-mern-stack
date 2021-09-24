@@ -22,33 +22,42 @@ const Menu = () => {
       if(pn===pathname) return 'active'
     }
     return (
-        <ul className="navbar-nav ms-auto">
-        {
-          navLinks.map((link, index) => (
-            <li key={index} className={`nav-item ${isActive(link.path)}`}>
-              <Link className="nav-link" to={link.path}>{link.label}</Link>
-            </li>
-          ))
-        }
-        {
-            auth.user && (
-              <li className="nav-item dropdown mb-8">
-              <span className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src={auth.user?.avatar} alt={auth.user?.name} className="avatar" />
-              </span>
-      
-              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><Link className="dropdown-item" to={`/profile/${auth?.user?._id}`}>Profile</Link></li>
-                <li><hr className="dropdown-divider" /></li>
-                <li>
-                  <Link className="dropdown-item" to="/"
-                    onClick={() => dispath(logout())}
-                  >Logout</Link>
-                </li>
-              </ul>
-            </li>
+      <ul className="navbar-nav ms-auto">
+          {
+            navLinks.map((link, index) => (
+              <li key={index} className={`nav-item ${isActive(link.path)}`}>
+                <Link className="nav-link" to={link.path}>{link.label}</Link>
+              </li>
+            ))
+          }
+
+          {
+            auth.user?.role === 'admin' && (
+              <li className={`nav-item ${isActive('/category')}`}>
+                <Link to="/category" className="nav-link"> Category </Link>
+              </li>
             )
-        }
+          }
+          
+          {
+              auth.user && (
+                <li className="nav-item dropdown mb-8">
+                <span className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src={auth.user?.avatar} alt={auth.user?.name} className="avatar" />
+                </span>
+        
+                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><Link className="dropdown-item" to={`/profile/${auth?.user?._id}`}>Profile</Link></li>
+                  <li><hr className="dropdown-divider" /></li>
+                  <li>
+                    <Link className="dropdown-item" to="/"
+                      onClick={() => dispath(logout())}
+                    >Logout</Link>
+                  </li>
+                </ul>
+              </li>
+              )
+          }
       </ul>
     )
 }
