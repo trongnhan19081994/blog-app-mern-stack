@@ -6,12 +6,14 @@ import Footer from './components/global/Footer'
 import Header from './components/global/Header'
 import PageRender from './PageRender'
 import { refreshToken } from './redux/actions/authAction'
+import { getHomeBlogs } from './redux/actions/blogAction'
 import { getCategories } from './redux/actions/categoryAction'
 const App = () => {
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(refreshToken())
+    dispatch(getHomeBlogs())
     dispatch(getCategories())
+    dispatch(refreshToken())
   }, [dispatch])
   return (
     <div className="container">

@@ -1,7 +1,9 @@
 import {Dispatch} from 'redux'
+import { getAPI, postAPI } from '../../utils/FetchData'
 import { imageUpload } from '../../utils/ImageUpload'
 import { IBlog } from '../../utils/TypeScript'
 import { ALERT, IAlertType } from '../types/alertType'
+import { GET_HOME_BLOGS, IGetHomeBlogsType } from '../types/blogType'
 
 export const createBlog = (blog: IBlog, token: string) => async (dispatch: Dispatch<IAlertType>) => {
     let url
@@ -14,7 +16,21 @@ export const createBlog = (blog: IBlog, token: string) => async (dispatch: Dispa
             url = blog.thumbnail
         }
         const newBlog = {...blog, thumbnail: url}
-        console.log({blog: newBlog, token})
+        await postAPI('blog', newBlog, token)
+        dispatch({type: ALERT, payload: {loading: false}})
+    } catch (error: any) {
+        dispatch({type: ALERT, payload: {errors: error.response.data.msg}})
+    }
+} 
+export const getHomeBlogs = () => async (dispatch: Dispatch<IAlertType | IGetHomeBlogsType>) => {
+    try {
+        dispatch({type: ALERT, payload: {loading: true}})
+        const res = await getAPI('home/blogs')
+        console.log(res)
+        dispatch({
+            type: GET_HOME_BLOGS,
+            payload: res.data
+        })
         dispatch({type: ALERT, payload: {loading: false}})
     } catch (error: any) {
         dispatch({type: ALERT, payload: {errors: error.response.data.msg}})
