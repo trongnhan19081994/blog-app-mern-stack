@@ -2,13 +2,12 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import CardHorizontal from '../components/cards/CardHorizontal'
 import CreateForm from '../components/cards/CreateForm'
-import NotFound from '../components/global/NotFound'
-import { IBlog, RootStore } from '../utils/TypeScript'
 import ReactQuill from '../components/editor/ReactQuill'
-import { validCreateBlog } from '../utils/Valid'
-import { ALERT } from '../redux/types/alertType'
-import { imageUpload } from '../utils/ImageUpload'
+import NotFound from '../components/global/NotFound'
 import { createBlog } from '../redux/actions/blogAction'
+import { ALERT } from '../redux/types/alertType'
+import { IBlog, RootStore } from '../utils/TypeScript'
+import { validCreateBlog } from '../utils/Valid'
 
 const CreateBlog = () => {
     const initState = {
