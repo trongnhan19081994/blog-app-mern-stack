@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getOtherInfo } from '../../redux/actions/profileAction'
+import { getOtherInfo } from '../../redux/actions/userAction'
 import { IUser, RootStore } from '../../utils/TypeScript'
 import Loading from '../alert/Loading'
 

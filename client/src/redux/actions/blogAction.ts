@@ -3,7 +3,7 @@ import { getAPI, postAPI } from '../../utils/FetchData'
 import { imageUpload } from '../../utils/ImageUpload'
 import { IBlog } from '../../utils/TypeScript'
 import { ALERT, IAlertType } from '../types/alertType'
-import { GET_BLOGS_CATEGORY_ID, GET_HOME_BLOGS, IGetBlogsCategoryType, IGetHomeBlogsType } from '../types/blogType'
+import { GET_BLOGS_CATEGORY_ID, GET_BLOGS_USER_ID, GET_HOME_BLOGS, IGetBlogsCategoryType, IGetBlogsUserType, IGetHomeBlogsType } from '../types/blogType'
 
 export const createBlog = (blog: IBlog, token: string) => async (dispatch: Dispatch<IAlertType>) => {
     let url
@@ -41,9 +41,25 @@ export const getBlogsByCategoryId = (id: string, search: string) => async (dispa
         let limit = 4
         let value = search ? search : `?page=${1}`
         dispatch({type: ALERT, payload: {loading: true}})
-        const res = await getAPI(`blogs/${id}${value}&limit=${limit}`)
+        const res = await getAPI(`blogs/category/${id}${value}&limit=${limit}`)
         dispatch({
             type: GET_BLOGS_CATEGORY_ID,
+            payload: {...res.data, id, search}
+        })
+        dispatch({type: ALERT, payload: {loading: false}})
+    } catch (error: any) {
+        dispatch({type: ALERT, payload: {errors: error.response.data.msg}})
+    }
+} 
+
+export const getBlogsByUserId = (id: string, search: string) => async (dispatch: Dispatch<IAlertType | IGetBlogsUserType>) => {
+    try {
+        let limit = 4
+        let value = search ? search : `?page=${1}`
+        dispatch({type: ALERT, payload: {loading: true}})
+        const res = await getAPI(`blogs/user/${id}${value}&limit=${limit}`)
+        dispatch({
+            type: GET_BLOGS_USER_ID,
             payload: {...res.data, id, search}
         })
         dispatch({type: ALERT, payload: {loading: false}})

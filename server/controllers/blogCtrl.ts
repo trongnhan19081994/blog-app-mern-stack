@@ -96,7 +96,7 @@ const blogCtrl = {
                    $facet: {
                        totalData: [
                            {
-                               $match: {category: mongoose.Types.ObjectId(req.params.category_id)}
+                               $match: {category: mongoose.Types.ObjectId(req.params.id)}
                            },
                            //User
                             {
@@ -121,7 +121,7 @@ const blogCtrl = {
                        ],
                        totalCount: [
                         {
-                            $match: {category: mongoose.Types.ObjectId(req.params.category_id)}
+                            $match: {category: mongoose.Types.ObjectId(req.params.id)}
                         },
                         {
                             $count: 'count'
@@ -151,6 +151,78 @@ const blogCtrl = {
             return res.status(500).json({msg: error.message})
         }
     },
+    getBlogsByUser: async (req: Request, res: Response) => {
+        const {limit, skip} = Pagination(req)
+        try {
+            const Data = await Blogs.aggregate([
+                {
+                   $facet: {
+                       totalData: [
+                           {
+                               $match: {user: mongoose.Types.ObjectId(req.params.id)}
+                           },
+                           //User
+                            {
+                                $lookup: {
+                                    from: 'users',
+                                    let: {user_id: '$user'},
+                                    pipeline: [
+                                        { $match: { $expr: { $eq: ["$_id", "$$user_id"] } } },  //chọn document mong muốn truy vấn.
+                                        { $project: {password: 0} } //chỉ định các field mong muốn truy vấn.
+                                    ],
+                                    as: "user"
+                                }
+                            },
+                            //array -> object
+                            { $unwind: "$user" },
+                            //Sorting
+                            {
+                                $sort: {"createdAt": -1}  //sắp xếp document
+                            },
+                            { $skip: skip },
+                            { $limit: limit },
+                       ],
+                       totalCount: [
+                        {
+                            $match: {user: mongoose.Types.ObjectId(req.params.id)}
+                        },
+                        {
+                            $count: 'count'
+                        }
+                       ]
+                   } 
+                },
+                {
+                    $project: {
+                        count: { $arrayElemAt: ["$totalCount.count", 0] },
+                        totalData: 1
+                    }
+                }
+            ]) 
+            const blogs = Data[0].totalData
+            const count = Data[0].count
+
+            //Pagination
+            let total = 0
+             if(count % limit === 0) {
+                total = count / limit
+             } else {
+                 total = Math.floor(count / limit) + 1
+             }
+            res.json({blogs, total})
+        } catch (error: any) {
+            return res.status(500).json({msg: error.message})
+        }
+    },
+    getBlog: async (req: Request, res: Response) => {
+        try {
+            const blog = await Blogs.findOne({_id: req.params.id}).populate("user", "-password")
+            if(!blog) return res.status(400).json({msg: 'Blog does not exist.'})
+            return res.json(blog)
+        } catch (error: any) {
+            return res.status(500).json({msg: error.message})
+        }
+    }
 }
 
 export default blogCtrl

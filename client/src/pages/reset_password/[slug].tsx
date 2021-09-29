@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
-import { resetPassword } from '../../redux/actions/profileAction'
+import { resetPassword } from '../../redux/actions/userAction'
 import { FormSubmit, IParams } from '../../utils/TypeScript'
 
 const ResetPassword = () => {

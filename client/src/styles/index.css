@@ -13,6 +13,10 @@ code {
     monospace;
 }
 
+img {
+  max-width: 100%
+}
+
 /* ---------- Auth Page------------ */
 @import url('./auth.css');
 @import url('./loading.css');

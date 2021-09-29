@@ -26,7 +26,13 @@ const CardHorizontal: React.FC<IProps> = ({blog}) => {
                 </div>
                 <div className="col-md-8">
                     <div className="card-body">
-                        <h5 className="card-title">{blog.title}</h5>
+                        <h5 className="card-title">
+                            <Link to={`/blog/${blog._id}`}
+                                className="text-capitalize text-decoration-none"
+                            > 
+                                {blog.title.slice(0,50) + '...'} 
+                            </Link>
+                        </h5>
                         <p className="card-text">{blog.description}</p>
                         <p className="card-text d-flex justify-content-end">
                             <small className="text-muted">
