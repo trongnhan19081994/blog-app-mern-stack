@@ -34,7 +34,6 @@ const DetailBlog = () => {
             {
                 blog && <DisplayBlog blog={blog}/>
             }
-            <h2>Comment</h2>
         </div>
     )
 }

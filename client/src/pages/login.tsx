@@ -11,7 +11,10 @@ const Login = () => {
     const history = useHistory()
     const {auth} = useSelector((state: RootStore) => state)
     useEffect(() => {
-        if(auth.access_token) history.push('/')
+        if(auth.access_token) {
+            let url = history.location.search.replace('?', '/')
+          return history.push(url)
+        } 
     }, [auth.access_token, history])
     return (
         <div className="auth_page">
@@ -29,7 +32,7 @@ const Login = () => {
                 </small>
                 <p>
                     You don't have an account? 
-                    <Link to={'/register'} style={{color:'crimson'}}> Register Now </Link> 
+                    <Link to={`/register${history.location.search}`} style={{color:'crimson'}}> Register Now </Link> 
                 </p>
             </div>
         </div>
